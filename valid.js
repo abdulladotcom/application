@@ -13,9 +13,10 @@ function validate(){
     var password = document.getElementById("pass");
     var length = document.getElementById("length");
 
-    if(password.value.length >= 8){
+    if(password.value=="19351935")
+ {
         alert("Login Succesfull");
-        window.location.replace("index1.html");
+        window.location.replace("newpage.html");
         return false;
     }
     else{
