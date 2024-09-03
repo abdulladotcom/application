@@ -16,7 +16,7 @@ function validate(){
     if(password.value=="19351935")
  {
         alert("Login Succesfull");
-        window.location.replace("newpage.html");
+        window.location.replace("index1.html");
         return false;
     }
     else{
