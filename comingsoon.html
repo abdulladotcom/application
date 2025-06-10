@@ -1,0 +1,221 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: #050b1f;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            color: #e2e8f0;
+        }
+        
+        .code-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .code-particle {
+            position: absolute;
+            color: #4ade80;
+            opacity: 0.7;
+            font-size: 14px;
+            text-shadow: 0 0 5px #4ade80;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .tech-object {
+            position: absolute;
+            opacity: 0.6;
+            filter: drop-shadow(0 0 5px #38bdf8);
+            animation: float ease-in-out infinite alternate;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.2em;
+            background-color: #e2e8f0;
+            margin-left: 5px;
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .glow {
+            text-shadow: 0 0 10px #38bdf8, 0 0 20px #38bdf8, 0 0 30px #38bdf8;
+        }
+    </style>
+</head>
+<body>
+    <div class="code-rain" id="codeRain"></div>
+    
+    <div class="relative z-10 flex flex-col items-center justify-center h-screen">
+        <div class="tech-object" style="top: 15%; left: 10%; animation-duration: 8s;">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 17L12 22L22 17" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 12L12 17L22 12" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        
+        <div class="tech-object" style="top: 25%; right: 15%; animation-duration: 6s;">
+            <svg width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="#38bdf8" stroke-width="1.5"/>
+                <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="1 3"/>
+            </svg>
+        </div>
+        
+        <div class="tech-object" style="bottom: 20%; left: 20%; animation-duration: 7s;">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6H20M4 12H20M4 18H20" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="9" cy="6" r="1" fill="#38bdf8"/>
+                <circle cx="15" cy="12" r="1" fill="#38bdf8"/>
+                <circle cx="9" cy="18" r="1" fill="#38bdf8"/>
+            </svg>
+        </div>
+        
+        <div class="tech-object" style="bottom: 30%; right: 25%; animation-duration: 9s;">
+            <svg width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3L21 7.5V16.5L12 21L3 16.5V7.5L12 3Z" stroke="#38bdf8" stroke-width="1.5"/>
+                <path d="M12 12L12 21" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M12 12L21 7.5" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M12 12L3 7.5" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-bold mb-4 tracking-wider glow">
+            COMING SOON<span class="cursor"></span>
+        </h1>
+        
+        <p class="text-xl md:text-2xl text-blue-300 tracking-wide opacity-80 mt-4">
+            Something amazing is in development
+        </p>
+    </div>
+
+    <script>
+        // Generate code particles
+        const codeRain = document.getElementById('codeRain');
+        const codeChars = ['0', '1', '{', '}', '<', '>', '/', '*', '=', ';', ':', '[', ']', '(', ')', '#', '$', '%', '&', '+', '-', '|'];
+        const htmlTags = ['<div>', '</div>', '<span>', '</span>', '<html>', '<body>', '<head>', '<script>', '<style>'];
+        
+        function createCodeParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('code-particle');
+            
+            // Randomly choose between code chars and HTML tags
+            const content = Math.random() > 0.7 ? 
+                htmlTags[Math.floor(Math.random() * htmlTags.length)] : 
+                codeChars[Math.floor(Math.random() * codeChars.length)];
+            
+            particle.textContent = content;
+            
+            // Random position
+            const posX = Math.random() * window.innerWidth;
+            particle.style.left = `${posX}px`;
+            
+            // Random size
+            const size = Math.random() * 10 + 10;
+            particle.style.fontSize = `${size}px`;
+            
+            // Random opacity
+            const opacity = Math.random() * 0.5 + 0.2;
+            particle.style.opacity = opacity;
+            
+            // Random animation duration
+            const duration = Math.random() * 15 + 5;
+            particle.style.animationDuration = `${duration}s`;
+            
+            // Random delay
+            const delay = Math.random() * 5;
+            particle.style.animationDelay = `${delay}s`;
+            
+            codeRain.appendChild(particle);
+            
+            // Remove particle after animation completes
+            setTimeout(() => {
+                particle.remove();
+            }, (duration + delay) * 1000);
+        }
+        
+        // Create initial particles
+        for (let i = 0; i < 50; i++) {
+            createCodeParticle();
+        }
+        
+        // Continue creating particles
+        setInterval(createCodeParticle, 300);
+        
+        // Make tech objects responsive
+        function adjustTechObjects() {
+            const techObjects = document.querySelectorAll('.tech-object');
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            techObjects.forEach(obj => {
+                // Get current position as percentage
+                const style = window.getComputedStyle(obj);
+                const topPercent = parseFloat(style.top) / height * 100;
+                const leftPercent = parseFloat(style.left) / width * 100;
+                const rightPercent = parseFloat(style.right) / width * 100;
+                const bottomPercent = parseFloat(style.bottom) / height * 100;
+                
+                // Apply percentage-based positioning
+                if (style.top) obj.style.top = `${topPercent}%`;
+                if (style.left) obj.style.left = `${leftPercent}%`;
+                if (style.right) obj.style.right = `${rightPercent}%`;
+                if (style.bottom) obj.style.bottom = `${bottomPercent}%`;
+            });
+        }
+        
+        // Adjust on load and resize
+        window.addEventListener('load', adjustTechObjects);
+        window.addEventListener('resize', adjustTechObjects);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94dab807c33fd787',t:'MTc0OTU3NzkwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
