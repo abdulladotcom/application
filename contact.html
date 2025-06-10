@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohamed Abdulla | Contact</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #111 0%, #222 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            cursor: none; /* Hide default cursor */
+        }
+        
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(255, 0, 0, 0.7);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: width 0.2s, height 0.2s;
+        }
+        
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 0, 0, 0.3);
+            pointer-events: none;
+            z-index: 9998;
+            transition: opacity 0.5s ease;
+        }
+        
+        .contact-card {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #ff0000;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 0, 0, 0.4);
+        }
+        
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.2) 0%, rgba(255, 0, 0, 0) 70%);
+            animation: pulse 8s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.3;
+            }
+        }
+        
+        .contact-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .contact-link:hover {
+            color: #ff3333;
+        }
+        
+        .contact-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #ff3333;
+            transition: width 0.3s ease;
+        }
+        
+        .contact-link:hover::after {
+            width: 100%;
+        }
+        
+        .name-highlight {
+            background: linear-gradient(90deg, #ff0000, #ff3333);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(255, 0, 0, 0.3);
+        }
+
+        .form-input {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: #ff0000;
+            box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+            outline: none;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            border-left: 4px solid #ff0000;
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center">
+    <!-- Custom cursor -->
+    <div class="custom-cursor"></div>
+    
+    <!-- Success message -->
+    <div id="successMessage" class="success-message">
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            <span>Message sent successfully!</span>
+        </div>
+    </div>
+    
+    <!-- Animated background -->
+    <div class="animated-bg">
+        <div class="bg-circle" style="width: 600px; height: 600px; top: -100px; left: -100px;"></div>
+        <div class="bg-circle" style="width: 500px; height: 500px; bottom: -100px; right: -50px;"></div>
+        <div class="bg-circle" style="width: 300px; height: 300px; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+    </div>
+    
+    <!-- Contact card -->
+    <div class="contact-card w-full max-w-md p-8 mx-4">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold mb-2"><span class="name-highlight">Mohamed Abdulla</span></h1>
+            <h2 class="text-xl text-red-400 font-medium">M.Sc.</h2>
+            <div class="w-16 h-1 bg-red-600 mx-auto mt-4 rounded-full"></div>
+        </div>
+        
+        <div class="space-y-6">
+            <div class="flex items-center space-x-4 p-3 bg-black bg-opacity-50 rounded-lg">
+                <div class="bg-red-600 p-3 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-gray-400 text-sm">Mobile</p>
+                    <a href="tel:0561787182" class="text-white text-lg font-medium contact-link">0561787182</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4 p-3 bg-black bg-opacity-50 rounded-lg">
+                <div class="bg-red-600 p-3 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-gray-400 text-sm">Email</p>
+                    <a href="mailto:contact@mohamedabdulla.com" class="text-white text-lg font-medium contact-link">contact@mohamedabdulla.com</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4 p-3 bg-black bg-opacity-50 rounded-lg">
+                <div class="bg-red-600 p-3 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-gray-400 text-sm">Location</p>
+                    <p class="text-white text-lg font-medium">United Arab Emirates</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <div class="mt-8">
+            <h3 class="text-xl font-semibold mb-4 text-center">Send a Message</h3>
+            <form id="contactForm" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Your Name</label>
+                    <input type="text" id="name" name="name" class="form-input w-full px-4 py-2 rounded-lg" placeholder="Enter your name" required>
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Your Email</label>
+                    <input type="email" id="email" name="email" class="form-input w-full px-4 py-2 rounded-lg" placeholder="Enter your email" required>
+                </div>
+                
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Message</label>
+                    <textarea id="message" name="message" rows="4" class="form-input w-full px-4 py-2 rounded-lg resize-none" placeholder="Type your message here..." required></textarea>
+                </div>
+                
+                <div class="text-center">
+                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+                        Send Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Custom cursor effect
+        const cursor = document.querySelector('.custom-cursor');
+        const trails = [];
+        const maxTrails = 10;
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            // Create trail effect
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            document.body.appendChild(trail);
+            
+            trails.push({
+                element: trail,
+                createdAt: Date.now()
+            });
+            
+            // Remove old trails
+            if (trails.length > maxTrails) {
+                const oldestTrail = trails.shift();
+                oldestTrail.element.style.opacity = '0';
+                setTimeout(() => {
+                    if (oldestTrail.element.parentNode) {
+                        oldestTrail.element.parentNode.removeChild(oldestTrail.element);
+                    }
+                }, 500);
+            }
+            
+            // Fade out trails over time
+            trails.forEach((trail, index) => {
+                const age = Date.now() - trail.createdAt;
+                if (age > 100) {
+                    trail.element.style.opacity = 1 - (age / 500);
+                }
+            });
+        });
+        
+        // Make cursor larger when hovering over interactive elements
+        document.querySelectorAll('a, button, input, textarea').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.width = '30px';
+                cursor.style.height = '30px';
+                cursor.style.backgroundColor = 'rgba(255, 0, 0, 0.9)';
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursor.style.width = '20px';
+                cursor.style.height = '20px';
+                cursor.style.backgroundColor = 'rgba(255, 0, 0, 0.7)';
+            });
+        });
+        
+        // Form submission
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // In a real application, you would send the form data to a server here
+            // For this demo, we'll just show a success message
+            
+            // Show success message
+            successMessage.style.opacity = '1';
+            
+            // Hide success message after 3 seconds
+            setTimeout(() => {
+                successMessage.style.opacity = '0';
+            }, 3000);
+            
+            // Reset form
+            contactForm.reset();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94d79448f39f5dec',t:'MTc0OTU0NDk4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

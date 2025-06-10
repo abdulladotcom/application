@@ -1,0 +1,807 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdulla Software</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #000;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .submenu {
+            display: none;
+            position: absolute;
+            background-color: #111;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 60;
+            border-left: 3px solid #ff0000;
+        }
+        
+        .menu-item:hover .submenu {
+            display: block;
+        }
+        
+        .submenu-item:hover {
+            background-color: #333;
+        }
+        
+        .hero-section {
+            background-color: #000;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .moving-element {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, #ff0000, #ff000066);
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: float 15s infinite ease-in-out;
+            z-index: 1;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(100px, 50px) scale(1.2);
+            }
+            50% {
+                transform: translate(200px, -50px) scale(0.8);
+            }
+            75% {
+                transform: translate(100px, -100px) scale(1.1);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Animation Canvas Styles */
+        .animation-canvas {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            background-color: #000;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .animated-object {
+            position: absolute;
+            border-radius: 50%;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .circle {
+            border-radius: 50%;
+        }
+        
+        .square {
+            border-radius: 0;
+        }
+        
+        .triangle {
+            width: 0;
+            height: 0;
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+        
+        .triangle-up {
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 50px solid;
+        }
+        
+        .triangle-down {
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-top: 50px solid;
+        }
+        
+        .diamond {
+            transform: rotate(45deg);
+        }
+        
+        .star {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-right: 10px solid transparent;
+            border-bottom: 7px solid #fff;
+            border-left: 10px solid transparent;
+            transform: rotate(35deg);
+        }
+        
+        .star:before {
+            border-bottom: 8px solid #fff;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            position: absolute;
+            height: 0;
+            width: 0;
+            top: -4.5px;
+            left: -6.5px;
+            transform: rotate(-35deg);
+            content: '';
+        }
+        
+        .star:after {
+            position: absolute;
+            top: 0.75px;
+            left: -10.5px;
+            border-right: 10px solid transparent;
+            border-bottom: 7px solid #fff;
+            border-left: 10px solid transparent;
+            transform: rotate(-70deg);
+            content: '';
+        }
+        
+        .glow {
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .grid-pattern {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .connection-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform-origin: left center;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl font-bold text-white flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                        </svg>
+                        Abdulla Softwares 2025
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex space-x-1">
+                    <div class="menu-item relative px-3 py-2 hover:bg-gray-800 cursor-pointer">
+                        Graphics-Application
+                        <div class="submenu mt-2 rounded">
+                            <a href="https://drive.google.com/file/d/1I4gY6-jKzFZFTRYMdN-ZclJwImiAR7mi/view" class="submenu-item block px-4 py-3 text-sm hover:text-red-500">Autocad-2025</a>
+                            <a href="https://drive.google.com/file/d/1TFSBqhtISaL8FhrSqBHg3sLeeniHm7ld/view" class="submenu-item block px-4 py-3 text-sm hover:text-red-500">3DS MAX-2025</a>
+                            <a href="https://drive.google.com/file/d/1jYCplTAu06bHFi5F0V0ccwMZgBo-GDm-/view" class="submenu-item block px-4 py-3 text-sm hover:text-red-500">Revit-2025</a>
+                            <a href="#" class="submenu-item block px-4 py-3 text-sm hover:text-red-500">Sketchup-2025</a>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item relative px-3 py-2 hover:bg-gray-800 cursor-pointer">
+                        Windows OS
+                        <div class="submenu mt-2 rounded">
+                            <a href="#" class="submenu-item block px-4 py-3 text-sm hover:text-red-500">Test process2</a>
+                            <a href="#" class="submenu-item block px-4 py-3 text-sm hover:text-red-500">Test process2</a>
+                            <a href="#" class="submenu-item block px-4 py-3 text-sm hover:text-red-500">Test process3</a>
+                            <a href="#" class="submenu-item block px-4 py-3 text-sm hover:text-red-500">Test process4</a>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item relative px-3 py-2 hover:bg-gray-800 cursor-pointer">
+                        Contact
+                        <div class="submenu mt-2 rounded">
+                            <a href="contact.html" class="submenu-item block px-4 py-3 text-sm hover:text-red-500">Our MD</a>
+                          
+                        </div>
+                    </div>
+                     <a href="index1.html" class="menu-item relative px-3 py-2 hover:bg-gray-800 cursor-pointer bg-red-600 rounded transition-all duration-300 hover:bg-red-700">
+                       Previous Page
+                    </a>
+                    <a href="https://abdulsoftwares.vercel.app/" class="menu-item relative px-3 py-2 hover:bg-gray-800 cursor-pointer bg-red-600 rounded transition-all duration-300 hover:bg-red-700">
+                        Next Page
+                    </a>
+		
+                </div>
+              <a href="index.html" class="menu-item relative px-3 py-2 hover:bg-gray-800 cursor-pointer bg-red-600 rounded transition-all duration-300 hover:bg-red-700">
+                        Home Page
+                    </a>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden pt-4 pb-2">
+                <a href="#" class="block py-2 hover:bg-gray-800">Graphics App</a>
+                <a href="#" class="block py-2 hover:bg-gray-800">Windows OS</a>
+                <a href="#" class="block py-2 hover:bg-gray-800">Contact</a>
+		<a href="index1.html" class="block py-2 hover:bg-gray-800 text-red-500 font-bold">Previous Page</a> 
+                
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Moving Objects Animation -->
+    <section class="hero-section min-h-[600px] flex items-center">
+        <div class="moving-element top-[10%] left-[60%]"></div>
+        <div class="moving-element top-[50%] left-[20%]" style="animation-delay: -5s;"></div>
+        
+        <div class="container mx-auto px-4 py-20 content">
+            <div class="max-w-5xl mx-auto">
+                <div class="animation-canvas" id="animation-canvas">
+                    <div class="grid-pattern"></div>
+                    <!-- Objects will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="bg-white py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Our Software Suite</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Discover our comprehensive collection of development tools designed to enhance your productivity and creativity.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature Card 1 -->
+                <div class="card bg-black text-white rounded-lg p-6 shadow-lg">
+                    <div class="mb-4 text-red-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Graphics Studio Pro</h3>
+                    <p class="text-gray-300 mb-4">Create stunning visuals with our intuitive design tool that seamlessly integrates with your creative workflow.</p>
+                    <a href="#" class="text-red-500 font-medium hover:underline">Learn more →</a>
+                </div>
+                
+                <!-- Feature Card 2 -->
+                <div class="card bg-black text-white rounded-lg p-6 shadow-lg">
+                    <div class="mb-4 text-red-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Windows OS Suite</h3>
+                    <p class="text-gray-300 mb-4">Optimize your operating system with powerful tools for performance, security, and customization.</p>
+                    <a href="#" class="text-red-500 font-medium hover:underline">Learn more →</a>
+                </div>
+                
+                <!-- Feature Card 3 -->
+                <div class="card bg-black text-white rounded-lg p-6 shadow-lg">
+                    <div class="mb-4 text-red-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Contact Center</h3>
+                    <p class="text-gray-300 mb-4">Get in touch with our expert support team for assistance with any of our products or services.</p>
+                    <a href="#" class="text-red-500 font-medium hover:underline">Learn more →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Animated Showcase Section -->
+    <section class="bg-gray-100 py-20">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-4">Intuitive Design Experience</h2>
+                    <p class="text-gray-600 mb-6">Our graphics software provides a seamless design experience with powerful tools that help you bring your ideas to life quickly and efficiently.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Drag-and-drop interface builder</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Real-time collaboration</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Advanced design tools</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Export to multiple formats</span>
+                        </li>
+                    </ul>
+                    <div class="mt-8">
+                        <a href="https://abdulsoftwares.vercel.app/" class="inline-block bg-red-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-red-700 transition-all duration-300 shadow-lg">
+                            Upcoming Soon Updates
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 relative">
+                    <div class="bg-white p-4 rounded-lg shadow-lg border-t-4 border-red-600" id="design-showcase">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            </div>
+                            <div class="text-sm text-gray-500">Graphics Studio Pro</div>
+                        </div>
+                        <div class="flex h-64 border rounded">
+                            <div class="w-1/4 bg-gray-100 p-2 border-r">
+                                <div class="bg-black text-white text-xs p-1 mb-2 rounded">Tools</div>
+                                <div class="bg-gray-200 h-6 w-full mb-2 rounded"></div>
+                                <div class="bg-gray-200 h-6 w-full mb-2 rounded"></div>
+                                <div class="bg-red-500 h-6 w-full mb-2 rounded"></div>
+                                <div class="bg-gray-200 h-6 w-full mb-2 rounded"></div>
+                            </div>
+                            <div class="w-3/4 p-4 relative" id="canvas">
+                                <div class="absolute bg-gray-200 h-16 w-32 rounded shadow-sm" id="moving-component" style="top: 20px; left: 40px;"></div>
+                                <div class="absolute bg-red-500 h-10 w-10 rounded-full shadow-sm" id="moving-circle" style="top: 80px; left: 120px;"></div>
+                                <div class="absolute bg-black text-white text-xs p-2 rounded shadow-sm" id="moving-text" style="top: 120px; left: 60px;">Shape</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="bg-black text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Transform Your Creative Process</h2>
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Join thousands of designers and developers who have already enhanced their workflow with our software suite.</p>
+            <a href="https://abdulsoftwares.vercel.app/" class="inline-block bg-red-600 text-white font-bold py-4 px-8 rounded-lg hover:bg-red-700 transition-all duration-300 shadow-lg text-lg">
+                Coming Soon Applications
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Abdulla Softwares</h3>
+                    <p class="text-gray-400 mb-4">Empowering creators with cutting-edge tools for modern design and development.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-red-500">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-red-500">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-red-500">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Graphics App</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-red-500">Photo Editor</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-red-500">Vector Design</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-red-500">3D Modeling</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-red-500">Animation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-red-500">UI/UX Design</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Windows OS</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-red-500">Desktop</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-red-500">Server</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-red-500">Mobile</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-red-500">IoT</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-red-500">Enterprise</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-red-500">Support</a></li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Abdulla Software @ All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Animated Design Canvas
+        const movingComponent = document.getElementById('moving-component');
+        const movingCircle = document.getElementById('moving-circle');
+        const movingText = document.getElementById('moving-text');
+        const canvas = document.getElementById('canvas');
+        
+        // Simple animation for design elements
+        function simpleAnimation() {
+            let xPos1 = 40, yPos1 = 20;
+            let xPos2 = 120, yPos2 = 80;
+            let xPos3 = 60, yPos3 = 120;
+            
+            let xDir1 = 1, yDir1 = 1;
+            let xDir2 = -1, yDir2 = 1;
+            let xDir3 = 1, yDir3 = -1;
+            
+            setInterval(() => {
+                // Update positions
+                xPos1 += xDir1 * 0.5;
+                yPos1 += yDir1 * 0.3;
+                
+                xPos2 += xDir2 * 0.4;
+                yPos2 += yDir2 * 0.5;
+                
+                xPos3 += xDir3 * 0.3;
+                yPos3 += yDir3 * 0.4;
+                
+                // Check boundaries for rectangle
+                if (xPos1 <= 0 || xPos1 >= canvas.offsetWidth - 80) xDir1 *= -1;
+                if (yPos1 <= 0 || yPos1 >= canvas.offsetHeight - 40) yDir1 *= -1;
+                
+                // Check boundaries for circle
+                if (xPos2 <= 0 || xPos2 >= canvas.offsetWidth - 40) xDir2 *= -1;
+                if (yPos2 <= 0 || yPos2 >= canvas.offsetHeight - 40) yDir2 *= -1;
+                
+                // Check boundaries for text
+                if (xPos3 <= 0 || xPos3 >= canvas.offsetWidth - 60) xDir3 *= -1;
+                if (yPos3 <= 0 || yPos3 >= canvas.offsetHeight - 30) yDir3 *= -1;
+                
+                // Apply new positions
+                movingComponent.style.left = xPos1 + 'px';
+                movingComponent.style.top = yPos1 + 'px';
+                
+                movingCircle.style.left = xPos2 + 'px';
+                movingCircle.style.top = yPos2 + 'px';
+                
+                movingText.style.left = xPos3 + 'px';
+                movingText.style.top = yPos3 + 'px';
+            }, 50);
+        }
+        
+        // Start the animation
+        simpleAnimation();
+        
+        // Hero Animation with Moving Objects
+        class AnimatedObject {
+            constructor(canvas, options = {}) {
+                this.canvas = canvas;
+                this.x = options.x || Math.random() * canvas.offsetWidth;
+                this.y = options.y || Math.random() * canvas.offsetHeight;
+                this.size = options.size || Math.random() * 30 + 10;
+                this.color = options.color || this.getRandomColor();
+                this.shape = options.shape || this.getRandomShape();
+                this.speedX = options.speedX || (Math.random() - 0.5) * 2;
+                this.speedY = options.speedY || (Math.random() - 0.5) * 2;
+                this.opacity = options.opacity || Math.random() * 0.5 + 0.5;
+                this.rotation = options.rotation || 0;
+                this.rotationSpeed = options.rotationSpeed || (Math.random() - 0.5) * 2;
+                this.glow = options.glow || Math.random() > 0.7;
+                this.pulse = options.pulse || Math.random() > 0.8;
+                this.element = null;
+                
+                this.create();
+            }
+            
+            getRandomColor() {
+                const colors = [
+                    '#ff3b30', '#ff9500', '#ffcc00', '#4cd964', 
+                    '#5ac8fa', '#007aff', '#5856d6', '#ff2d55'
+                ];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            getRandomShape() {
+                const shapes = ['circle', 'square', 'triangle-up', 'triangle-down', 'diamond'];
+                return shapes[Math.floor(Math.random() * shapes.length)];
+            }
+            
+            create() {
+                const element = document.createElement('div');
+                element.className = 'animated-object';
+                
+                if (this.shape === 'circle') {
+                    element.classList.add('circle');
+                } else if (this.shape === 'square') {
+                    element.classList.add('square');
+                } else if (this.shape === 'triangle-up') {
+                    element.classList.add('triangle', 'triangle-up');
+                    element.style.borderBottomColor = this.color;
+                } else if (this.shape === 'triangle-down') {
+                    element.classList.add('triangle', 'triangle-down');
+                    element.style.borderTopColor = this.color;
+                } else if (this.shape === 'diamond') {
+                    element.classList.add('square', 'diamond');
+                }
+                
+                if (this.shape !== 'triangle-up' && this.shape !== 'triangle-down') {
+                    element.style.backgroundColor = this.color;
+                }
+                
+                element.style.width = `${this.size}px`;
+                element.style.height = `${this.size}px`;
+                element.style.left = `${this.x}px`;
+                element.style.top = `${this.y}px`;
+                element.style.opacity = this.opacity;
+                
+                if (this.glow) {
+                    element.classList.add('glow');
+                }
+                
+                if (this.pulse) {
+                    element.classList.add('pulse');
+                }
+                
+                this.canvas.appendChild(element);
+                this.element = element;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+                
+                // Boundary check
+                if (this.x <= 0 || this.x >= this.canvas.offsetWidth - this.size) {
+                    this.speedX *= -1;
+                }
+                
+                if (this.y <= 0 || this.y >= this.canvas.offsetHeight - this.size) {
+                    this.speedY *= -1;
+                }
+                
+                // Update position
+                this.element.style.left = `${this.x}px`;
+                this.element.style.top = `${this.y}px`;
+                
+                // Update rotation for applicable shapes
+                if (this.shape === 'square' || this.shape === 'diamond') {
+                    this.element.style.transform = `rotate(${this.rotation}deg)`;
+                }
+            }
+        }
+        
+        class ConnectionLine {
+            constructor(canvas, obj1, obj2) {
+                this.canvas = canvas;
+                this.obj1 = obj1;
+                this.obj2 = obj2;
+                this.element = null;
+                this.maxDistance = 150; // Maximum distance to show connection
+                
+                this.create();
+            }
+            
+            create() {
+                const element = document.createElement('div');
+                element.className = 'connection-line';
+                this.canvas.appendChild(element);
+                this.element = element;
+                this.update();
+            }
+            
+            update() {
+                const x1 = this.obj1.x + this.obj1.size / 2;
+                const y1 = this.obj1.y + this.obj1.size / 2;
+                const x2 = this.obj2.x + this.obj2.size / 2;
+                const y2 = this.obj2.y + this.obj2.size / 2;
+                
+                const dx = x2 - x1;
+                const dy = y2 - y1;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < this.maxDistance) {
+                    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                    
+                    this.element.style.width = `${distance}px`;
+                    this.element.style.left = `${x1}px`;
+                    this.element.style.top = `${y1}px`;
+                    this.element.style.transform = `rotate(${angle}deg)`;
+                    this.element.style.opacity = (1 - distance / this.maxDistance) * 0.5;
+                    this.element.style.display = 'block';
+                } else {
+                    this.element.style.display = 'none';
+                }
+            }
+        }
+        
+        // Initialize animation
+        function initAnimation() {
+            const canvas = document.getElementById('animation-canvas');
+            const objects = [];
+            const connections = [];
+            const numObjects = 20;
+            
+            // Create animated objects
+            for (let i = 0; i < numObjects; i++) {
+                objects.push(new AnimatedObject(canvas));
+            }
+            
+            // Add some special objects
+            objects.push(new AnimatedObject(canvas, {
+                x: canvas.offsetWidth / 2,
+                y: canvas.offsetHeight / 2,
+                size: 50,
+                color: '#ff3b30',
+                shape: 'circle',
+                speedX: 0.3,
+                speedY: -0.2,
+                glow: true
+            }));
+            
+            objects.push(new AnimatedObject(canvas, {
+                x: canvas.offsetWidth / 3,
+                y: canvas.offsetHeight / 3,
+                size: 40,
+                color: '#007aff',
+                shape: 'square',
+                speedX: -0.2,
+                speedY: 0.3,
+                rotationSpeed: 1
+            }));
+            
+            // Create connections between objects
+            for (let i = 0; i < objects.length; i++) {
+                for (let j = i + 1; j < objects.length; j++) {
+                    connections.push(new ConnectionLine(canvas, objects[i], objects[j]));
+                }
+            }
+            
+            // Animation loop
+            function animate() {
+                // Update all objects
+                objects.forEach(obj => obj.update());
+                
+                // Update all connections
+                connections.forEach(conn => conn.update());
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+        
+        // Start animation when page loads
+        window.addEventListener('load', initAnimation);
+        
+        // Try to load GSAP if available (not included by default)
+        const gsapScript = document.createElement('script');
+        gsapScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js';
+        gsapScript.onload = function() {
+            // If GSAP loaded successfully, use enhanced animations
+            gsap.to(movingComponent, {
+                duration: 3,
+                x: "random(-20, 150)",
+                y: "random(0, 100)",
+                ease: "power2.inOut",
+                repeat: -1,
+                yoyo: true
+            });
+            
+            gsap.to(movingCircle, {
+                duration: 4,
+                x: "random(0, 150)",
+                y: "random(20, 120)",
+                ease: "power1.inOut",
+                repeat: -1,
+                yoyo: true,
+                delay: 0.5
+            });
+            
+            gsap.to(movingText, {
+                duration: 3.5,
+                x: "random(10, 120)",
+                y: "random(50, 150)",
+                ease: "power3.inOut",
+                repeat: -1,
+                yoyo: true,
+                delay: 1
+            });
+        };
+        document.head.appendChild(gsapScript);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94d23d180574663f',t:'MTc0OTQ4ODk4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
